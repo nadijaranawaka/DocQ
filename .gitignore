@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#venv
+venv/
+
+#package dunder files
+__pycache__
