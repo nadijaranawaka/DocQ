@@ -1,5 +1,5 @@
 from sentence_transformers import SentenceTransformer
-from app.config.settings import EMBEDDING_MODEL
+from config.settings import EMBEDDING_MODEL
 
 #check config
 if not EMBEDDING_MODEL:
@@ -12,15 +12,17 @@ modelName = EMBEDDING_MODEL
 #load the model
 embeddingModel = SentenceTransformer(modelName)
 
+#convert chunk to embeddings
 def get_embeddings(text):
-
-    if not isinstance(text,str):
-        raise TypeError(f"Excpected String, got {type(text)}")
-    if not isinstance(text,list):
+    if isinstance(text,str):
+        embeddings = embeddingModel.encode(text)
+        print(embeddings.shape)
+        return embeddings
+    elif isinstance(text, list):
         if not all(isinstance(t,str)for t in text):
             raise TypeError("All items in the list should be strings")
-        raise TypeError("Chunks are not entered as a list")
-    
-    embeddings = embeddingModel.encode(text)
-    print(embeddings.shape)
-    return embeddings
+        embeddings = embeddingModel.encode(text)
+        print(embeddings.shape)
+        return embeddings
+    else:
+        raise TypeError({"Chunks are expected to be a string or a list of strings"})

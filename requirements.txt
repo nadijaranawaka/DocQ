@@ -1,3 +1,5 @@
 openai
 chromadb
 sentence-transformers
+pypdf
+pathlib
