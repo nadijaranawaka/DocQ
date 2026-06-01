@@ -25,6 +25,7 @@ dist-ssr
 
 #venv
 venv/
+.venv
 
 #package dunder files
 __pycache__
