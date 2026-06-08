@@ -20,19 +20,16 @@ def store_doc(chunks,embeddings,filename):
         )
     #get the collection - I want to get multiple collections for each user which is something I need to work on
     collection = get_collection()
-
     #creating ids for chunks
     ids = [
         str(uuid.uuid4())
         for _ in chunks
     ]
-
     #improve this in later versions
     metadata = [
         {"source":filename}
         for _ in chunks
     ]
-
     collection.add(
         ids= ids,
         documents=chunks,
@@ -46,7 +43,9 @@ def list_collections():
 
 def preview_chunks(limit=10):
     collection = get_collection()
+    print(collection.count())
     return collection.peek(limit)
+
 def get_documents():
     collection = get_collection()
     sources = set()
@@ -54,3 +53,17 @@ def get_documents():
     for metadata in results["metadatas"]:
         sources.add(metadata["source"])
     return list(sources)
+
+def if_existing(filename):
+    collection = get_collection()
+    existing = collection.get(
+        where={"source":filename}
+    )
+    if existing["ids"]:
+        return True
+
+def delete_collection():
+    chroma = get_client()
+    chroma.delete_collection(
+        name=COLLECTION_NAME
+    )

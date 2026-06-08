@@ -8,3 +8,4 @@ CHUNK_OVERLAP = 100
 #Vector database
 VECTOR_PATH = "docq-ai/vector"
 COLLECTION_NAME = "documents"
+
