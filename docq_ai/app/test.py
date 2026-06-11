@@ -2,8 +2,10 @@ from embeddings.embedding import get_embeddings
 from ingestion.pdf_loader import load_pdf, pdf_path
 from ingestion.parser import clean_text
 from ingestion.chunker import chunk_document
-from vectorstore.vectorstore import store_doc,get_documents,preview_chunks,if_existing
+from vectorstore.vectorstore import store_doc,get_documents,preview_chunks,if_existing,delete_collection,print_metadata
 from retrieval.retrieval import search_doc
+
+delete_collection()
 
 pdf_text = load_pdf(pdf_path)
 final_text = clean_text(pdf_text) 
@@ -15,6 +17,7 @@ if if_existing(pdf_path.stem):
 else:
     store_doc(chunks,emb,pdf_path.stem)
 docs = get_documents()
+print_metadata()
 # print(docs)
 vector_test = preview_chunks()
 # print(vector_test)

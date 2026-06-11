@@ -27,8 +27,11 @@ def store_doc(chunks,embeddings,filename):
     ]
     #improve this in later versions
     metadata = [
-        {"source":filename}
-        for _ in chunks
+        {
+        "source":filename,
+        "chunk_index": i
+         }
+        for i in range(len(chunks))
     ]
     collection.add(
         ids= ids,
@@ -67,3 +70,8 @@ def delete_collection():
     chroma.delete_collection(
         name=COLLECTION_NAME
     )
+
+def print_metadata():
+    collection = get_collection()
+    result = collection.get()
+    print(result["metadatas"])
