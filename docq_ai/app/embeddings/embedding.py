@@ -1,28 +1,33 @@
 from sentence_transformers import SentenceTransformer
 from config.settings import EMBEDDING_MODEL
+import logging
 
-#check config
-if not EMBEDDING_MODEL:
-    raise ValueError("EMBEDDING_MODEL is not defined in settings")
+#logger object 
+logger = logging.getLogger(__name__)
 
 #embedding model this can change according to how we need
 modelName = EMBEDDING_MODEL
-
 
 #load the model
 embeddingModel = SentenceTransformer(modelName)
 
 #convert chunk to embeddings
 def get_embeddings(text):
+    #check config
+    if not EMBEDDING_MODEL:
+        raise ValueError("EMBEDDING_MODEL is not defined in settings")
+    logger.info("Embedding Model Activated")
     if isinstance(text,str):
         embeddings = embeddingModel.encode(text)
-        print(embeddings.shape)
+        logger.info(f"Embedding Shape {embeddings.shape[0]}")
+        logger.info("Embedding Complete took String as Input")
         return embeddings
     elif isinstance(text, list):
         if not all(isinstance(t,str)for t in text):
             raise TypeError("All items in the list should be strings")
         embeddings = embeddingModel.encode(text)
-        print(embeddings.shape)
+        logger.info(f"Embedding Shape {embeddings.shape[0]} : {embeddings.shape[1]}")
+        logger.info("Embedding complete took a list of Strings as input")
         return embeddings
     else:
         raise TypeError({"Chunks are expected to be a string or a list of strings"})

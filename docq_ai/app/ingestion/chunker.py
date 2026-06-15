@@ -1,23 +1,32 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from config.settings import CHUNK_OVERLAP, CHUNK_SIZE
+import logging
 
-if CHUNK_SIZE <= 0:
-    raise ValueError("CHUNK_SIZE must be positive")
+#logger object 
+logger = logging.getLogger(__name__)
 
-if CHUNK_OVERLAP >= CHUNK_SIZE:
-    raise ValueError(
-        "CHUNK_OVERLAP must be smaller than CHUNK_SIZE"
-    )
 
 # def set_params(text: str):
 #     length = len(text)
 # add dynamic chunking in v2
 
-def set_splitter() -> RecursiveCharacterTextSplitter: 
+def set_splitter() -> RecursiveCharacterTextSplitter:
+    
+    #chunk validation
+    if CHUNK_SIZE <= 0:
+        raise ValueError("CHUNK_SIZE must be positive")
+
+    if CHUNK_OVERLAP >= CHUNK_SIZE:
+        raise ValueError(
+            "CHUNK_OVERLAP must be smaller than CHUNK_SIZE"
+        )
+    
+    #Setting RecursiveCharacterTextSplitter
     splitter = RecursiveCharacterTextSplitter(
         chunk_size = CHUNK_SIZE,
         chunk_overlap = CHUNK_OVERLAP
     )
+    logger.info("Spillter Ready")
     return splitter
 
 def chunk_document(text: str)  -> list[str]:
@@ -30,5 +39,8 @@ def chunk_document(text: str)  -> list[str]:
     
     split = set_splitter()
 
+    #Chunking
     docs = split.split_text(text)
+
+    logger.info("Chunking Complete")
     return docs

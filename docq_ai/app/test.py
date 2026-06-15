@@ -4,24 +4,26 @@ from ingestion.parser import clean_text
 from ingestion.chunker import chunk_document
 from vectorstore.vectorstore import store_doc,get_documents,preview_chunks,if_existing,delete_collection,print_metadata
 from retrieval.retrieval import search_doc
+from config import logConfig
+import logging
 
-delete_collection()
+#logger object 
+logger = logging.getLogger(__name__)
+
+# delete_collection()
 
 pdf_text = load_pdf(pdf_path)
 final_text = clean_text(pdf_text) 
 chunks = chunk_document(final_text)
 emb = get_embeddings(chunks)
-print(emb)
 if if_existing(pdf_path.stem):
-    print("Document Already Exists")
+    logger.info("Document Already Exist")
 else:
     store_doc(chunks,emb,pdf_path.stem)
-docs = get_documents()
+get_documents()
 print_metadata()
-# print(docs)
 vector_test = preview_chunks()
-# print(vector_test)
 question = "What is regression?"
 
 response = search_doc(question)
-print(response["documents"][0])
+logger.info(f"Received {len(response['documents'][0])} chunks from the search")

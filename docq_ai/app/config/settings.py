@@ -1,3 +1,11 @@
+from pathlib import Path
+
+#Project root
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+#Logs
+LOG_DIR = BASE_DIR / "logs"
+
 #embedding model 
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 

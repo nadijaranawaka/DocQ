@@ -1,4 +1,8 @@
 import re
+import logging
+
+#logger object
+logger = logging.getLogger(__name__)
 
 def clean_text(text: str):
 
@@ -22,4 +26,5 @@ def clean_text(text: str):
     #Clean accidental newlines
     text = re.sub(r"\n{3,}","\n\n",text)
 
+    logger.info("Text Cleaned")
     return text.strip()
