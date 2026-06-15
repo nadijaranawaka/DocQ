@@ -4,4 +4,6 @@ sentence-transformers
 pypdf
 pathlib
 langchain_text_splitters
-re
+google.genai
+google
+dotenv

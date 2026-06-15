@@ -38,12 +38,9 @@ def chatbot():
                 break
 
             if user_in.strip():
-                continue
+                pass
 
             responses = chat.send_message(user_in)
-            print(responses)
-
+            print(f"Bot: {responses.text}")
         except Exception as e:
             print(e)
-
-chatbot()
