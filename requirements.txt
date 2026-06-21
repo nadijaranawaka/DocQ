@@ -1,0 +1,7 @@
+openai
+chromadb
+sentence-transformers
+pypdf
+pathlib
+langchain_text_splitters
+uuid
