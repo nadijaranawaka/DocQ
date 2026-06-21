@@ -29,3 +29,6 @@ venv/
 
 #package dunder files
 __pycache__
+
+#environment variables
+.env

@@ -5,3 +5,6 @@ pypdf
 pathlib
 langchain_text_splitters
 uuid
+google.genai
+google
+dotenv
