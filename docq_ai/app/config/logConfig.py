@@ -1,6 +1,6 @@
 # import sys
 import logging
-from config.settings import LOG_DIR
+from app.config.settings import LOG_DIR
 
 LOG_DIR.mkdir(exist_ok = True)
 LOG_FILE = LOG_DIR / "docq.log"

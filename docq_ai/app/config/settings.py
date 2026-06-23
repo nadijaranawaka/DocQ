@@ -14,7 +14,7 @@ CHUNK_SIZE = 800
 CHUNK_OVERLAP = 100
 
 #Vector database
-VECTOR_PATH = "docq_ai/vector"
+VECTOR_PATH = "/vector"
 COLLECTION_NAME = "documents"
 
 #Retrieval

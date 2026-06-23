@@ -1,5 +1,5 @@
 import chromadb
-from config.settings import VECTOR_PATH,COLLECTION_NAME
+from app.config.settings import VECTOR_PATH,COLLECTION_NAME
 import uuid
 import logging
 

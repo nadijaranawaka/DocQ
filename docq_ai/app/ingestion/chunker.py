@@ -1,5 +1,5 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from config.settings import CHUNK_OVERLAP, CHUNK_SIZE
+from app.config.settings import CHUNK_OVERLAP, CHUNK_SIZE
 import logging
 
 #logger object 

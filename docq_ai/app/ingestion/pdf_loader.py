@@ -1,5 +1,5 @@
 from pypdf import PdfReader
-from config.settings import BASE_DIR
+from app.config.settings import BASE_DIR
 import logging
 
 #logger object

@@ -1,10 +1,11 @@
-from embeddings.embedding import get_embeddings
-from ingestion.pdf_loader import load_pdf, pdf_path
-from ingestion.parser import clean_text
-from ingestion.chunker import chunk_document
-from vectorstore.vectorstore import store_doc,get_documents,preview_chunks,if_existing,delete_collection,print_metadata
-from retrieval.retrieval import search_doc
-from config import logConfig
+from app.embeddings.embedding import get_embeddings
+from app.ingestion.pdf_loader import load_pdf, pdf_path
+from app.ingestion.parser import clean_text
+from app.ingestion.chunker import chunk_document
+from app.vectorstore.vectorstore import store_doc,get_documents,preview_chunks,if_existing,delete_collection,print_metadata
+from app.retrieval.retrieval import search_doc
+from app.config import logConfig
+from model.pipeline import Pipeline
 import logging
 
 #logger object 
@@ -25,5 +26,9 @@ print_metadata()
 vector_test = preview_chunks()
 question = "What is regression?"
 
-response = search_doc(question)
-logger.info(f"Received {len(response['documents'][0])} chunks from the search")
+# response = search_doc(question)
+# logger.info(f"Received {len(response['documents'][0])} chunks from the search")
+
+pipeline = Pipeline()
+answer = pipeline.ask_docq(question)
+print(answer)
