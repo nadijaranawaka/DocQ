@@ -70,8 +70,6 @@ class ChromaDB:
             raise ValueError("Chunks cannot be empty")
         if not filename:
             raise ValueError("Filename cannot be empty")
-        if not embeddings:
-            raise ValueError("Embeddigns cannot be empty")
         #Validate length of chunks = embeddings length
         if len(chunks) != len(embeddings):
             raise ValueError("" \
