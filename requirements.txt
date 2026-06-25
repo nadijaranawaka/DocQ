@@ -7,3 +7,4 @@ langchain_text_splitters
 google.genai
 google
 dotenv
+uuid
