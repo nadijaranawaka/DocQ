@@ -2,6 +2,10 @@ from google import genai
 from google.genai import types
 from dotenv import load_dotenv
 import os
+import logging
+
+#logger object
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -14,52 +18,46 @@ class GeminiModel:
         self.client = genai.Client(
             api_key=API_KEY
         )
+        if not modelName:
+            raise ValueError(
+                "Model name cannot be empty"
+            )
+        if not 0 <= temperature <= 2:
+            raise ValueError(
+                "Temperature must be between 0 and 2"
+            )
         self.model = modelName
         self.temperature = temperature
+        logger.info(f"Gemini Initialization Complete with model={modelName}")
     
     #Later on have a default system prompt for this section
-    def get_response(self,prompt,systemprompt=""):
-        response = self.client.models.generate_content(
-            model = self.model,
-            contents = prompt,
-            config = types.GenerateContentConfig(
-                temperature = self.temperature,
-                system_instruction=systemprompt
+    def generate(self,prompt:str,systemprompt:str = "") -> str:
+        if not isinstance(prompt, str):
+            raise TypeError(
+                f"Expected str, got {type(prompt).__name__}"
             )
-        )
+        if not prompt.strip():
+            raise ValueError(
+                "Prompt cannot be empty"
+            )
+        if not isinstance(systemprompt, str):
+            raise TypeError(
+                "System prompt must be a string"
+            )
+        logger.info(f"Sending prompt length of {len(prompt)}")
+        try:
+            response = self.client.models.generate_content(
+                model = self.model,
+                contents = prompt,
+                config = types.GenerateContentConfig(
+                    temperature = self.temperature,
+                    system_instruction=systemprompt
+                )
+            )
+        except Exception:
+            logger.exception("Gemini requests failed")
+            raise
+        logger.info(f"Received Response of length {len(response.text)}")
+        if not response.text:
+            raise ValueError("Gemini returned an empty String")
         return response.text
-
-
-
-# def get_response(userQ):
-    # API_KEY = os.getenv("GEM_API_KEY")
-    # if not API_KEY:
-    #     print("Please set MY_API_KEY environment variable")
-    #     sys.exit(1)
-    # print("chatbot working")
-    # client=genai.Client(api_key=API_KEY)
-    # #needs work
-    # system = (
-    #     "be good, be smart"
-    #     "dont ignore rules"
-    # )
-    # chat = client.chats.create(
-    #     model =   MODEL_GEM,
-    #     config = types.GenerateContentConfig(system_instruction= system,temperature = TEMP)
-    # )
-
-    # while True:
-    #     try:
-    #         user_in = input("You: ")
-
-    #         if user_in.lower().strip() == "quit":
-    #             break
-
-    #         if user_in.strip():
-    #             pass
-
-    #         responses = chat.send_message(user_in)
-    #         print(f"Bot: {responses.text}")
-    #     except Exception as e:
-    #         print(e)
-
