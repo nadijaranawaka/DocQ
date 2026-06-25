@@ -1,6 +1,6 @@
-from vectorstore.vectorstore import get_collection
-from embeddings.embedding import get_embeddings
-from config.settings import TOP_K
+from app.vectorstore.vectorstore import get_collection
+from app.embeddings.embedding import get_embeddings
+from app.config.settings import TOP_K
 
 def search_doc(question, top_k=TOP_K):
     collection = get_collection()

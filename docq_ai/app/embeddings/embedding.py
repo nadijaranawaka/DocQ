@@ -1,5 +1,5 @@
 from sentence_transformers import SentenceTransformer
-from config.settings import EMBEDDING_MODEL
+from app.config.settings import EMBEDDING_MODEL
 
 #check config
 if not EMBEDDING_MODEL:

@@ -1,5 +1,5 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from config.settings import CHUNK_OVERLAP, CHUNK_SIZE
+from app.config.settings import CHUNK_OVERLAP, CHUNK_SIZE
 
 if CHUNK_SIZE <= 0:
     raise ValueError("CHUNK_SIZE must be positive")
