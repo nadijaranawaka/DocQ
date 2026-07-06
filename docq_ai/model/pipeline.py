@@ -1,9 +1,9 @@
 from app.config.settings import TOP_K
-from model.prompt_builder import build_prompt
-from app.ingestion.pdf_loader import load_pdf
-from app.ingestion.parser import clean_text
-from app.ingestion.chunker import chunk_document
-from app.embeddings.embedding import get_embeddings
+from model import build_prompt
+from app.ingestion import load_pdf
+from app.ingestion import clean_text
+from app.ingestion import chunk_document
+from app.embeddings import get_embeddings
 from pathlib import Path
 import logging
 

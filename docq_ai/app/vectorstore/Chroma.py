@@ -1,7 +1,7 @@
 import chromadb
 import logging
 import uuid
-from app.embeddings.embedding import get_embeddings
+from app.embeddings import get_embeddings
 
 #logger object
 logger = logging.getLogger(__name__)

@@ -2,8 +2,8 @@ from app.ingestion.pdf_loader import pdf_path
 from app.config.settings import VECTOR_PATH,COLLECTION_NAME,MODEL_GEM,TEMP
 from app.config import logConfig
 from model.pipeline import Pipeline
-from app.vectorstore.Chroma import ChromaDB
-from model.gemini_model import GeminiModel
+from app.vectorstore import ChromaDB
+from model import GeminiModel
 import logging
 
 #Instance Creation
