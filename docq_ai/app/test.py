@@ -11,8 +11,8 @@ logger = logging.getLogger(__name__)
 chroma = ChromaDB(COLLECTION_NAME,VECTOR_PATH)
 llm = GeminiModel(MODEL_GEM,TEMP)
 pipeline = Pipeline(llm=llm,vector=chroma)
-
 pipeline.upload_file(pdf_path)
-question = "What is regression?"
-answer = pipeline.ask_docq(question)
-print(answer)
+chroma.print_metadata()
+# question = "What is regression?"
+# answer = pipeline.ask_docq(question)
+# print(answer)

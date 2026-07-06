@@ -33,20 +33,36 @@ def set_splitter() -> RecursiveCharacterTextSplitter:
     logger.info(f"Spiltter Ready. Chunk size={CHUNK_SIZE}. Chunk Overlap={CHUNK_OVERLAP}")
     return splitter
 
-def chunk_document(text: str)  -> list[str]:
+def chunk_document(pages: list[dict]) -> list[dict]:
     
     #input validation
-    if not isinstance(text, str):
-        raise TypeError(f"Expected String, Got {type(text).__name__}")
-    if not text.strip():
-        raise ValueError("Input text is Empty")
+    if not isinstance(pages, list):
+        raise TypeError(
+            f"Expected list, got {type(pages).__name__}"
+        )
     
     split = set_splitter()
+    chunks = []
 
     #Chunking
-    docs = split.split_text(text)
-    if not docs:
+    for page in pages:
+
+        page_number = page["page"]
+        text = page["text"]
+
+        if not text.strip():
+            continue
+
+        page_chunks = split.split_text(text)
+
+        for chunk in page_chunks:
+
+            chunks.append({
+                "page": page_number,
+                "text": chunk
+            })
+    if not chunks:
         raise ValueError("Chunking produced no chunks")
 
-    logger.info(f"Chunking Complete. Created {len(docs)} chunks")
-    return docs
+    logger.info(f"Chunking Complete. Created {len(chunks)} chunks")
+    return chunks

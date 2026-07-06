@@ -3,34 +3,58 @@ import logging
 
 #logger object
 logger = logging.getLogger(__name__)
-PAGE_PATTERN = re.compile(r"Page \d+ of \d+")
 
-def clean_text(text: str) -> str:
+#cleaning rules for the tes file
+PAGE_PATTERN = re.compile(r"Page \d+ of \d+")
+MULTIPLE_NEWLINES = re.compile(r"\n{3,}")
+HEADER = """CM 1606: Computational Mathematics
+(Sem 02: Prob. & Stat.)"""
+
+def clean_pages(pages: list[dict]) -> list[dict]:
     try:
         #Text Error handling
-        if not isinstance(text,str):
+        if not isinstance(pages,list):
             raise TypeError(
-                f"Expected Type String, got {type(text).__name__}"
+                f"Expected List, got {type(pages).__name__}"
             )
-        if not text.strip():
-            raise ValueError("Input text is empty")
-        original_len = len(text)
-        #Clean the headers
-        #move this into a config file named cleaning rules
-        text = text.replace(
-            """CM 1606: Computational Mathematics
-    (Sem 02: Prob. & Stat.)""",""
+        cleaned_pages = []
+        for page in pages:
+
+            if not isinstance(page, dict):
+                raise TypeError(
+                    "Each page must be a dictionary."
+                )
+
+            page_number = page["page"]
+            text = page["text"]
+
+            if not isinstance(text, str):
+                raise TypeError(
+                    f"Page {page_number} does not contain valid text."
+                )
+
+            original_length = len(text)
+
+            text = text.replace(HEADER, "")
+            text = PAGE_PATTERN.sub("", text)
+            text = MULTIPLE_NEWLINES.sub("\n\n", text)
+            text = text.strip()
+
+            cleaned_pages.append({
+                "page": page_number,
+                "text": text
+            })
+
+            logger.debug(
+                f"Page {page_number}: "
+                f"{original_length} -> {len(text)} characters"
+            )
+
+        logger.info(
+            f"Successfully cleaned {len(cleaned_pages)} pages."
         )
 
-        #Clean the page numbers
-        text = PAGE_PATTERN.sub("", text)
-
-        #Clean accidental newlines
-        text = re.sub(r"\n{3,}","\n\n",text)
-        text = text.strip()
-        cleaned_len = len(text)
-        logger.info(f"Text Cleaned. Length: {original_len} -> {cleaned_len}")
-        return text
+        return cleaned_pages
     except Exception:
-        logger.exception("Text Cleaning Failed")
+        logger.exception("Failed to clean extracted pages.")
         raise

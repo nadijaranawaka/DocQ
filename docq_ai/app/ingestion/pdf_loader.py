@@ -10,16 +10,17 @@ logger = logging.getLogger(__name__)
 pdf_path = BASE_DIR / "data" / "uploads" / "testpdf.pdf"
 #when creating the upload function this will change for now the pdf is hardcoded
 
-def read_pages(pdf_obj) -> str:
-    text = ""
-    for page in pdf_obj.pages:
-        pdf_content = page.extract_text()
-        if pdf_content:
-            text += pdf_content + "\n"
-    if not text.strip():
+def read_pages(pdf_obj) -> list[dict]:
+    pages = []
+    for i,page in enumerate(pdf_obj.pages):
+        pages.append({
+            "page":i+1,
+            "text":page.extract_text()
+        })
+    if not pages:
         raise ValueError("No text could be extracted from PDF")
     logger.info(f"Extracted text from {len(pdf_obj.pages)} pages")
-    return text
+    return pages
 
 def load_pdf(path:Path) -> str:
     try:

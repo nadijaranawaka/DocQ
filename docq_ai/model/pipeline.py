@@ -1,7 +1,7 @@
 from app.config.settings import TOP_K
 from model import build_prompt
 from app.ingestion import load_pdf
-from app.ingestion import clean_text
+from app.ingestion import clean_pages
 from app.ingestion import chunk_document
 from app.embeddings import get_embeddings
 from pathlib import Path
@@ -26,9 +26,13 @@ class Pipeline:
             
             pdfText = load_pdf(path)
             logger.info(f"Starting ingestion for {path.name}")
-            finalText = clean_text(pdfText)
-            chunks = chunk_document(finalText)
-            embeddings = get_embeddings(chunks)
+            pages = clean_pages(pdfText)
+            chunks = chunk_document(pages)
+            texts = [
+                chunk["text"]
+                for chunk in chunks
+            ]
+            embeddings = get_embeddings(texts)
             logger.info(f"Generated {len(embeddings)} embeddings")
 
             #check if the document is already stored

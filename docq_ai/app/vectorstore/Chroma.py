@@ -2,6 +2,7 @@ import chromadb
 import logging
 import uuid
 from app.embeddings import get_embeddings
+from datetime import datetime
 
 #logger object
 logger = logging.getLogger(__name__)
@@ -57,50 +58,76 @@ class ChromaDB:
         )
         logger.info("Collection Deleted!")
 
+    def generate_ids(self,count: int) -> list[str]:
+        ids = [
+            str(uuid.uuid4())
+            for _ in range(count)
+        ]
+        logger.info(f"Generated {count} unique chunk IDs")
+        return ids
+    
+    def build_metadata(self,chunks:list[dict],filename:str,ids:list[str]) -> list[dict]:
+        metadata = []
+        for i,chunk in enumerate(chunks):
+            metadata.append({
+                "source" : filename,
+                "page" : chunk["page"],
+                "chunk_index" : i,
+                "chunk_id" : ids[i],
+                "chunk_length" : len(chunk["text"]),
+                "created_at" : datetime.utcnow().isoformat(),
+                "document_type" : "pdf"
+            })
+        logger.info(f"Created metadata for {len(metadata)} chunks.")
+        return metadata
+    
     def print_metadata(self):
         result = self.collection.get()
-        logger.info(
+        print(
             f"Retrieved metadata for "
             f"{len(result['metadatas'])} chunks"
+            f"{result['metadatas'][-1]}"
         )
 
-    def store_doc(self,chunks,embeddings,filename):
+    def _validate_store_input(
+        self,
+        chunks,
+        embeddings,
+        filename
+    ):
 
         if not chunks:
-            raise ValueError("Chunks cannot be empty")
-        if not filename:
-            raise ValueError("Filename cannot be empty")
-        #Validate length of chunks = embeddings length
-        if len(chunks) != len(embeddings):
-            raise ValueError("" \
-                "Chunk and Embedding counts must Match"
+            raise ValueError(
+                "Chunks cannot be empty."
             )
+
+        if not filename:
+            raise ValueError(
+                "Filename cannot be empty."
+            )
+
+        if len(chunks) != len(embeddings):
+            raise ValueError(
+                "Chunks and embeddings must have equal length."
+            )
+    def store_doc(self,chunks,embeddings,filename):
+
+        self._validate_store_input(chunks,embeddings,filename)
         logger.info("Embeddings and Texts match")
 
         #Unique Ids for chunks is a must
-        ids = [
-            str(uuid.uuid4())
-            for _ in chunks
+        ids = self.generate_ids(len(chunks))
+        metadata = self.build_metadata(chunks,filename,ids)
+        documents = [
+            chunk["text"] for chunk in chunks
         ]
-        logger.info("Unique chunk IDs created")
-        
-        #improve this in later versions
-        #for uses use metadata as well
-        metadata = [
-            {
-            "source":filename,
-            "chunk_index": i
-            }
-            for i in range(len(chunks))
-        ]
-        logger.info("Metadata added")
         self.collection.add(
             ids= ids,
-            documents=chunks,
+            documents=documents,
             embeddings=embeddings.tolist(),
             metadatas=metadata
         )
-        logger.info("Stored in Vector Database")
+        logger.info(f"Stored {len(chunks)} chunks into Chroma.")
     
     def search_doc(self,question, top_k):
         if not question.strip():
