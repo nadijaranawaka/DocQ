@@ -75,7 +75,7 @@ class ChromaDB:
                 "chunk_index" : i,
                 "chunk_id" : ids[i],
                 "chunk_length" : len(chunk["text"]),
-                "created_at" : datetime.utcnow().isoformat(),
+                "created_at" : datetime.isoformat(),
                 "document_type" : "pdf"
             })
         logger.info(f"Created metadata for {len(metadata)} chunks.")

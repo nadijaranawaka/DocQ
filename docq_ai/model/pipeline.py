@@ -4,6 +4,7 @@ from app.ingestion import load_pdf
 from app.ingestion import clean_pages
 from app.ingestion import chunk_document
 from app.embeddings import get_embeddings
+from app.ingestion.header_detector import find_headers,remove_headers
 from pathlib import Path
 import logging
 
@@ -26,7 +27,12 @@ class Pipeline:
             
             pdfText = load_pdf(path)
             logger.info(f"Starting ingestion for {path.name}")
-            pages = clean_pages(pdfText)
+            print(pdfText)
+            headers = find_headers(pdfText)
+            pages = remove_headers(pdfText,headers)
+            print(pdfText)
+            pages = clean_pages(pages)
+            print(pages)
             chunks = chunk_document(pages)
             texts = [
                 chunk["text"]

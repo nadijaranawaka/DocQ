@@ -13,16 +13,22 @@ pdf_path = BASE_DIR / "data" / "uploads" / "testpdf.pdf"
 def read_pages(pdf_obj) -> list[dict]:
     pages = []
     for i,page in enumerate(pdf_obj.pages):
+        text = page.extract_text()
+        if not text:
+            logger.warning(f"Page {i+1} contains no extractable text")
+            text = ""
         pages.append({
             "page":i+1,
-            "text":page.extract_text()
+            "text": text
         })
-    if not pages:
-        raise ValueError("No text could be extracted from PDF")
+    if not any(page["text"].strip() for page in pages):
+        raise ValueError(
+            "PDF contains no extractable text"
+        )
     logger.info(f"Extracted text from {len(pdf_obj.pages)} pages")
     return pages
 
-def load_pdf(path:Path) -> str:
+def load_pdf(path:Path) -> list[dict]:
     try:
         if not path.exists():
             raise FileNotFoundError(f"PDF file was not found: {path}")
