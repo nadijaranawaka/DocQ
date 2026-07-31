@@ -5,6 +5,7 @@ from app.ingestion import clean_pages
 from app.ingestion import chunk_document
 from app.embeddings import get_embeddings
 from app.ingestion.header_detector import find_headers,remove_headers
+from app.vectorstore.context_builder import contextBuilder
 from pathlib import Path
 import logging
 
@@ -53,7 +54,7 @@ class Pipeline:
             results = self.vector.search_doc(question,TOP_K,filename)
             if not results["documents"]:
                 raise ValueError("No relevant documents found")
-            chunks = results['documents'][0]
+            chunks = contextBuilder(result=results)
             logger.info(f"Retrieved {len(chunks)} chunks")
             prompt = build_prompt(question=question,chunks=chunks)
             answer = self.llm.generate(prompt=prompt)

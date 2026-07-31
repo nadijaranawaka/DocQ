@@ -1,7 +1,7 @@
 import logging
 logger = logging.getLogger(__name__)
 
-def build_prompt(question:str, chunks:list[str]) -> str:
+def build_prompt(question:str, chunks:list) -> str:
     try:
         #validation
         if not isinstance(question, str):
@@ -20,17 +20,35 @@ def build_prompt(question:str, chunks:list[str]) -> str:
             raise ValueError(
                 "No chunks provided"
             )
-        if not all(isinstance(chunk, str) for chunk in chunks):
-            raise TypeError(
-                "All chunks must be strings"
-            )
         # Need more prompt engineering
-        context = "\n\n".join(chunks)
+        context = ""
+        for ctx in chunks:
+            context += f"""
+            Source: {ctx["source"]}
+            Page: {ctx["page"]}
+
+            {ctx["text"]}
+
+            -----------------------"""
+            
         logger.info(f"Context length: {len(context)} characters")
         logger.info(f"Building prompt using {len(chunks)} chunks")
 
         prompt = f"""
-        Answer the following question using ONLY the provided context,
+        You are answering questions about a PDF.
+
+        Each context section contains a Source and Page.
+
+        Whenever you use information from a context section,
+        cite the page at the end of the sentence like:
+
+        (Page 3)
+
+        If information comes from multiple pages, cite all of them:
+
+        (Pages 3, 5)
+
+        Only use the provided context.
 
         Context:
         {context}
