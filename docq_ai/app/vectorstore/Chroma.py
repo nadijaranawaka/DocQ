@@ -2,7 +2,7 @@ import chromadb
 import logging
 import uuid
 from app.embeddings import get_embeddings
-from datetime import datetime
+from datetime import datetime,UTC
 
 #logger object
 logger = logging.getLogger(__name__)
@@ -75,7 +75,7 @@ class ChromaDB:
                 "chunk_index" : i,
                 "chunk_id" : ids[i],
                 "chunk_length" : len(chunk["text"]),
-                "created_at" : datetime.isoformat(),
+                "created_at" : datetime.now(UTC).isoformat(),
                 "document_type" : "pdf"
             })
         logger.info(f"Created metadata for {len(metadata)} chunks.")
@@ -129,7 +129,7 @@ class ChromaDB:
         )
         logger.info(f"Stored {len(chunks)} chunks into Chroma.")
     
-    def search_doc(self,question, top_k):
+    def search_doc(self,question, top_k,filename):
         if not question.strip():
             raise ValueError("Question cannot be empty")
         if top_k <= 0:
@@ -140,7 +140,10 @@ class ChromaDB:
         try:
             result = self.collection.query(
                 query_embeddings= [query_embedding.tolist()],
-                n_results= top_k
+                n_results= top_k,
+                where={
+                    "source" : filename
+                }
             )
         except Exception:
             logger.exception("Similarity search failed")

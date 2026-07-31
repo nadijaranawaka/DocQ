@@ -27,12 +27,9 @@ class Pipeline:
             
             pdfText = load_pdf(path)
             logger.info(f"Starting ingestion for {path.name}")
-            print(pdfText)
             headers = find_headers(pdfText)
             pages = remove_headers(pdfText,headers)
-            print(pdfText)
             pages = clean_pages(pages)
-            print(pages)
             chunks = chunk_document(pages)
             texts = [
                 chunk["text"]
@@ -51,9 +48,9 @@ class Pipeline:
             raise
 
 
-    def ask_docq(self,question:str) -> str:
+    def ask_docq(self,question:str,filename:str) -> str:
         try:
-            results = self.vector.search_doc(question,TOP_K)
+            results = self.vector.search_doc(question,TOP_K,filename)
             if not results["documents"]:
                 raise ValueError("No relevant documents found")
             chunks = results['documents'][0]
