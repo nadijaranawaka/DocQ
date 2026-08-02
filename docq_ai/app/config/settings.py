@@ -19,6 +19,7 @@ COLLECTION_NAME = "documents"
 
 #Retrieval
 TOP_K = 3
+MAX_DISTANCE = 0.9
 
 #embedding model 
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"

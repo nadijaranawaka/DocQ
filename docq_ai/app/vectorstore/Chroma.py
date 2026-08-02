@@ -3,6 +3,7 @@ import logging
 import uuid
 from app.embeddings import get_embeddings
 from datetime import datetime,UTC
+from app.config.settings import MAX_DISTANCE
 
 #logger object
 logger = logging.getLogger(__name__)
@@ -145,11 +146,27 @@ class ChromaDB:
                     "source" : filename
                 }
             )
+            filtered = {
+                "documents": [],
+                "metadatas": [],
+                "distances": []
+            }
+
+            for doc,metadata,distance in zip(
+                result["documents"][0],
+                result["metadatas"][0],
+                result["distances"][0]
+            ):
+                if distance <= MAX_DISTANCE:
+                    filtered["documents"].append(doc)
+                    filtered["metadatas"].append(metadata)
+                    filtered["distances"].append(distance)
+
         except Exception:
             logger.exception("Similarity search failed")
             raise
         logger.info("Similarity Search Complete")
-        return result
+        return filtered
 
 
 

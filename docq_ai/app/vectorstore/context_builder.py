@@ -1,8 +1,8 @@
 def contextBuilder(result:dict) -> list:
     context = []
 
-    documents = result["documents"][0]
-    metadatas = result["metadatas"][0]
+    documents = result["documents"]
+    metadatas = result["metadatas"]
 
     for document,metadata in zip(documents,metadatas):
         context.append(

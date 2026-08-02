@@ -52,8 +52,6 @@ class Pipeline:
     def ask_docq(self,question:str,filename:str) -> str:
         try:
             results = self.vector.search_doc(question,TOP_K,filename)
-            if not results["documents"]:
-                raise ValueError("No relevant documents found")
             chunks = contextBuilder(result=results)
             logger.info(f"Retrieved {len(chunks)} chunks")
             prompt = build_prompt(question=question,chunks=chunks)

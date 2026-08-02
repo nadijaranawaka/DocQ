@@ -16,10 +16,7 @@ def build_prompt(question:str, chunks:list) -> str:
             raise TypeError(
                 "Chunks must be a list"
             )
-        if not chunks:
-            raise ValueError(
-                "No chunks provided"
-            )
+        
         # Need more prompt engineering
         context = ""
         for ctx in chunks:
