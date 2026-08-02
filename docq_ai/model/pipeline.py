@@ -6,6 +6,7 @@ from app.ingestion import chunk_document
 from app.embeddings import get_embeddings
 from app.ingestion.header_detector import find_headers,remove_headers
 from app.vectorstore.context_builder import contextBuilder
+from app.config.prompts import DOCQ_SYSTEM_PROMPT
 from pathlib import Path
 import logging
 
@@ -55,7 +56,7 @@ class Pipeline:
             chunks = contextBuilder(result=results)
             logger.info(f"Retrieved {len(chunks)} chunks")
             prompt = build_prompt(question=question,chunks=chunks)
-            answer = self.llm.generate(prompt=prompt)
+            answer = self.llm.generate(prompt=prompt,systemprompt=DOCQ_SYSTEM_PROMPT)
             return answer
         except Exception:
             logger.exception("Question Answering Failed")

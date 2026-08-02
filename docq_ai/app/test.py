@@ -13,6 +13,7 @@ llm = GeminiModel(MODEL_GEM,TEMP)
 pipeline = Pipeline(llm=llm,vector=chroma)
 pipeline.upload_file(pdf_path)
 
+
 question = "When is the next fifa world cup?"
 answer = pipeline.ask_docq(question,pdf_path.stem)
 print(answer)
