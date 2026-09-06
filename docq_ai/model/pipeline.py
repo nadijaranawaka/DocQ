@@ -21,7 +21,7 @@ class Pipeline:
         self.vector = vector
         logger.info("Pipeline initialized")
     
-    def upload_file(self,path:Path) -> None:
+    def upload_file(self,path:Path,document_id:str) -> None:
         try:
             if not path.exists():
                 raise FileNotFoundError(f"File not found: {path}")
@@ -40,10 +40,10 @@ class Pipeline:
             logger.info(f"Generated {len(embeddings)} embeddings")
 
             #check if the document is already stored
-            if self.vector.if_existing(path.stem):
-                logger.warning(f"{path.stem} already exists")
+            if self.vector.if_existing(document_id):
+                logger.warning(f"{document_id} already exists")
             else:
-                self.vector.store_doc(chunks,embeddings,path.stem)
+                self.vector.store_doc(chunks,embeddings,document_id)
         except Exception:
             logger.exception("Ingestion Failed")
             raise
