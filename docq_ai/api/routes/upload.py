@@ -1,7 +1,6 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
+from api.schemas.requests import DocumentRequestModel
 from services.supabase.download import download_file
-from pathlib import Path
 from app.config.settings import BASE_DIR
 from model.pipeline import Pipeline
 from app.vectorstore import ChromaDB
@@ -9,10 +8,6 @@ from app.config.settings import VECTOR_PATH,COLLECTION_NAME,MODEL_GEM,TEMP
 from model import GeminiModel
 
 upload_router = APIRouter()
-
-class DocumentRequestModel(BaseModel):
-    document_id : str
-    storage_path : str
 
 chroma = ChromaDB(COLLECTION_NAME, VECTOR_PATH)
 llm = GeminiModel(MODEL_GEM, TEMP)

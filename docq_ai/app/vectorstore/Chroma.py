@@ -72,12 +72,13 @@ class ChromaDB:
         for i,chunk in enumerate(chunks):
             metadata.append({
                 "source" : filename,
-                "page" : chunk["page"],
+                "page" : chunk.get("page",0),
                 "chunk_index" : i,
                 "chunk_id" : ids[i],
                 "chunk_length" : len(chunk["text"]),
                 "created_at" : datetime.now(UTC).isoformat(),
-                "document_type" : "pdf"
+                "document_type" : "pdf",
+                "chunk_type" : chunk.get("chunk_type","content")
             })
         logger.info(f"Created metadata for {len(metadata)} chunks.")
         return metadata
@@ -130,7 +131,7 @@ class ChromaDB:
         )
         logger.info(f"Stored {len(chunks)} chunks into Chroma.")
     
-    def search_doc(self,question, top_k,filename):
+    def search_doc(self,question, top_k,document_id):
         if not question.strip():
             raise ValueError("Question cannot be empty")
         if top_k <= 0:
@@ -143,7 +144,7 @@ class ChromaDB:
                 query_embeddings= [query_embedding.tolist()],
                 n_results= top_k,
                 where={
-                    "source" : filename
+                    "document_id" : document_id
                 }
             )
             filtered = {
