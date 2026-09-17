@@ -1,0 +1,320 @@
+/* ── Overlay ──────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ── Modal box ────────────────────────────────────── */
+.modal-box {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  width: 100%;
+  max-width: 500px;
+  overflow: hidden;
+  animation: modalIn 0.2s ease;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ── Header ───────────────────────────────────────── */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 0;
+}
+
+.modal-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid transparent;
+}
+
+.modal-tab {
+  background: none;
+  border: none;
+  padding: 6px 2px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #9ca3af;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s;
+}
+
+.modal-tab--active {
+  color: #14b8a6;
+  border-bottom-color: #14b8a6;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  padding: 4px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+.modal-close-btn:hover {
+  color: #111827;
+  background: #f3f4f6;
+}
+
+/* ── Size limit text ──────────────────────────────── */
+.modal-size-limit {
+  padding: 8px 20px 0;
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* ── Drop zone ────────────────────────────────────── */
+.modal-dropzone {
+  margin: 12px 20px;
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  background: #fafafa;
+}
+.modal-dropzone:hover,
+.modal-dropzone--active {
+  border-color: #14b8a6;
+  background: #f0fdfa;
+}
+
+.modal-file-input {
+  display: none;
+}
+
+.modal-drop-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin: 0;
+}
+
+.modal-or-text {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.modal-browse-btn {
+  background: #14b8a6;
+  color: #ffffff;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.modal-browse-btn:hover {
+  background: #0d9488;
+}
+
+/* ── File preview ─────────────────────────────────── */
+.modal-file-preview {
+  margin: 0 20px;
+  padding: 12px 14px;
+  background: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  border-radius: 8px;
+}
+
+.modal-file-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-file-name {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modal-file-size {
+  font-size: 11px;
+  color: #9ca3af;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.modal-remove-btn {
+  background: none;
+  border: none;
+  padding: 2px;
+  border-radius: 4px;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.12s;
+}
+.modal-remove-btn:hover {
+  color: #ef4444;
+}
+
+/* ── Progress bar ─────────────────────────────────── */
+.modal-progress-wrap {
+  margin-top: 10px;
+}
+
+.modal-progress-bar {
+  height: 5px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.modal-progress-fill {
+  height: 100%;
+  background: #14b8a6;
+  border-radius: 3px;
+  transition: width 0.18s ease;
+}
+
+.modal-progress-label {
+  display: block;
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 5px;
+}
+
+/* ── Spinner ──────────────────────────────────────── */
+.modal-spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid #e5e7eb;
+  border-top-color: #14b8a6;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: spin 0.65s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Success text ─────────────────────────────────── */
+.modal-success-text {
+  font-size: 12px;
+  color: #14b8a6;
+  font-weight: 600;
+  margin: 6px 0 0;
+}
+
+/* ── Error message ────────────────────────────────── */
+.modal-error {
+  margin: 8px 20px 0;
+  font-size: 12px;
+  color: #ef4444;
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+/* ── Supported formats ────────────────────────────── */
+.modal-formats {
+  margin: 12px 20px 0;
+  font-size: 12px;
+  color: #9ca3af;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.modal-formats summary {
+  cursor: pointer;
+  color: #14b8a6;
+  font-weight: 600;
+  list-style: none;
+}
+.modal-formats summary::-webkit-details-marker {
+  display: none;
+}
+
+.modal-formats p {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ── Footer ───────────────────────────────────────── */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 20px;
+}
+
+.modal-cancel-btn {
+  background: none;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.modal-cancel-btn:hover {
+  border-color: #9ca3af;
+  color: #374151;
+}
+
+.modal-upload-btn {
+  background: #14b8a6;
+  color: #ffffff;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.modal-upload-btn:hover:not(:disabled) {
+  background: #0d9488;
+}
+.modal-upload-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

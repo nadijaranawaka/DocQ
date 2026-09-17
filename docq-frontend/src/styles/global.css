@@ -1,0 +1,12 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #f0f2f5;
+  color: #111827;
+  font-size: 14px;
+}
+
+button { cursor: pointer; font-family: inherit; }
+input  { font-family: inherit; }

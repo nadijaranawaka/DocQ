@@ -1,0 +1,511 @@
+/* ── Page shell ───────────────────────────────────── */
+.account-container {
+  display: flex;
+  height: 100vh;
+  background: #f0f2f5;
+  overflow: hidden;
+}
+
+/* ── Main area ────────────────────────────────────── */
+.account-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  position: relative;
+}
+
+/* ── Scroll wrapper ───────────────────────────────── */
+.account-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 48px;
+}
+
+.account-scroll::-webkit-scrollbar { width: 5px; }
+.account-scroll::-webkit-scrollbar-track { background: transparent; }
+.account-scroll::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 3px; }
+
+/* ── Top bar with close icon ──────────────────────── */
+.account-topbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 20px 0;
+}
+
+.account-close-btn {
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 6px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.12s;
+}
+.account-close-btn:hover {
+  background: #f3f4f6;
+}
+
+/* ── Body ─────────────────────────────────────────── */
+.account-body {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px 32px 0;
+}
+
+.account-page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 24px;
+}
+
+/* ── Section ──────────────────────────────────────── */
+.account-section {
+  margin-bottom: 32px;
+}
+
+.account-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 12px;
+}
+
+.danger-title {
+  color: #ef4444;
+}
+
+/* ── White card ───────────────────────────────────── */
+.account-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* ── Profile avatar row ───────────────────────────── */
+.profile-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.profile-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.profile-avatar-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 2px;
+}
+
+.profile-avatar-email {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* ── Field rows ───────────────────────────────────── */
+.account-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.account-field--last {
+  border-bottom: none;
+}
+
+.account-field-label {
+  width: 80px;
+  min-width: 80px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  padding-top: 8px;
+}
+
+.account-field-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.account-field-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.account-field-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.account-field-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.account-field-edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Input ────────────────────────────────────────── */
+.account-input {
+  flex: 1;
+  padding: 7px 11px;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  font-size: 13px;
+  color: #111827;
+  background: #ffffff;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s;
+  min-width: 0;
+  width: 100%;
+}
+
+.account-input:focus {
+  border-color: #14b8a6;
+}
+
+.account-input[readonly] {
+  background: #f9fafb;
+  color: #6b7280;
+  cursor: default;
+}
+
+.account-input[type="password"] {
+  letter-spacing: 3px;
+}
+
+.account-field-hint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Save message ─────────────────────────────────── */
+.save-msg {
+  font-size: 12px;
+  color: #14b8a6;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ── Buttons ──────────────────────────────────────── */
+.btn-change {
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  padding: 7px 14px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color 0.12s, background 0.12s;
+}
+.btn-change:hover {
+  border-color: #9ca3af;
+  background: #f9fafb;
+}
+
+.btn-save {
+  background: #14b8a6;
+  color: #ffffff;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-save:hover {
+  background: #0d9488;
+}
+
+.btn-cancel-edit {
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  padding: 7px 14px;
+  font-size: 13px;
+  color: #6b7280;
+  cursor: pointer;
+  transition: border-color 0.12s;
+}
+.btn-cancel-edit:hover {
+  border-color: #9ca3af;
+}
+
+/* ── Plan card ────────────────────────────────────── */
+.plan-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.plan-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 14px;
+}
+
+.plan-features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 20px;
+}
+
+.plan-features-col {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.plan-features-col li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.plan-features-col svg {
+  flex-shrink: 0;
+}
+
+/* ── Danger zone ──────────────────────────────────── */
+.danger-card {
+  border-color: #fecaca;
+}
+
+.danger-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 20px;
+}
+
+.danger-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 3px;
+}
+
+.danger-desc {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.btn-delete-account {
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.btn-delete-account:hover {
+  background: #dc2626;
+}
+
+/* ── Delete confirm modal ─────────────────────────── */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.confirm-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 28px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+.confirm-modal h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 10px;
+}
+
+.confirm-modal p {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 20px;
+  line-height: 1.6;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Loading state */
+.account-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 14px;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.account-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #14b8a6;
+  border-radius: 50%;
+  animation: accountSpin 0.7s linear infinite;
+}
+@keyframes accountSpin { to { transform: rotate(360deg); } }
+
+/* Error state */
+.account-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 16px;
+  color: #ef4444;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Save message error variant */
+.save-msg--error { color: #ef4444; }
+
+/* Credits section */
+.credits-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 18px 20px;
+}
+
+.credits-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  border-radius: 10px;
+  padding: 12px 20px;
+  min-width: 90px;
+}
+
+.credits-number {
+  font-size: 28px;
+  font-weight: 700;
+  color: #14b8a6;
+  margin: 0;
+}
+
+.credits-label {
+  font-size: 11px;
+  color: #6b7280;
+  margin: 2px 0 0;
+  white-space: nowrap;
+}
+
+.credits-hint {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Sign out section */
+.signout-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 20px;
+}
+
+.signout-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 3px;
+}
+
+.signout-desc {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.btn-signout {
+  background: none;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 7px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-signout:hover {
+  border-color: #9ca3af;
+  color: #111827;
+}
+ 
