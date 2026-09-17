@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import os
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("docq")
 
 load_dotenv()
 

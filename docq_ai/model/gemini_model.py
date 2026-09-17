@@ -3,9 +3,10 @@ from google.genai import types
 from dotenv import load_dotenv
 import os
 import logging
+from tenacity import retry,wait_random_exponential,stop_after_attempt
 
 #logger object
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("docq")
 
 load_dotenv()
 
@@ -31,6 +32,7 @@ class GeminiModel:
         logger.info(f"Gemini Initialization Complete with model={modelName}")
     
     #Later on have a default system prompt for this section
+    @retry(wait=wait_random_exponential(min=1,max=10),stop=stop_after_attempt(4))
     def generate(self,prompt:str,systemprompt:str = "") -> str:
         if not isinstance(prompt, str):
             raise TypeError(

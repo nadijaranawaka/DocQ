@@ -3,7 +3,7 @@ from app.config.settings import EMBEDDING_MODEL
 import logging
 
 #logger object 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("docq")
 
 #embedding model this can change according to how we need
 modelName = EMBEDDING_MODEL

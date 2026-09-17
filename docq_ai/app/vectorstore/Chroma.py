@@ -22,7 +22,8 @@ class ChromaDB:
         try:
             self.client = chromadb.PersistentClient(path=vectorPath)
             self.collection = self.client.get_or_create_collection(
-                name = collectionName
+                name = collectionName,
+                metadata={"hnsw:space": "cosine"}
             )
             logger.info(f"Connected to Collection: {collectionName}")
         except Exception:
@@ -67,10 +68,11 @@ class ChromaDB:
         logger.info(f"Generated {count} unique chunk IDs")
         return ids
     
-    def build_metadata(self,chunks:list[dict],filename:str,ids:list[str]) -> list[dict]:
+    def build_metadata(self,chunks:list[dict],filename:str,document_id:str,ids:list[str]) -> list[dict]:
         metadata = []
         for i,chunk in enumerate(chunks):
             metadata.append({
+                "document_id": document_id,
                 "source" : filename,
                 "page" : chunk.get("page",0),
                 "chunk_index" : i,
@@ -112,14 +114,14 @@ class ChromaDB:
             raise ValueError(
                 "Chunks and embeddings must have equal length."
             )
-    def store_doc(self,chunks,embeddings,filename):
+    def store_doc(self,chunks,embeddings,filename,document_id):
 
         self._validate_store_input(chunks,embeddings,filename)
         logger.info("Embeddings and Texts match")
 
         #Unique Ids for chunks is a must
         ids = self.generate_ids(len(chunks))
-        metadata = self.build_metadata(chunks,filename,ids)
+        metadata = self.build_metadata(chunks,filename,document_id,ids)
         documents = [
             chunk["text"] for chunk in chunks
         ]
@@ -147,6 +149,8 @@ class ChromaDB:
                     "document_id" : document_id
                 }
             )
+            print("\nRAW CHROMA RESULT:")
+            print(result)
             filtered = {
                 "documents": [],
                 "metadatas": [],
@@ -158,7 +162,7 @@ class ChromaDB:
                 result["metadatas"][0],
                 result["distances"][0]
             ):
-                if distance <= MAX_DISTANCE:
+                # if distance <= MAX_DISTANCE:
                     filtered["documents"].append(doc)
                     filtered["metadatas"].append(metadata)
                     filtered["distances"].append(distance)

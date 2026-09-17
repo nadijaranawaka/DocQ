@@ -3,7 +3,7 @@ from app.config.settings import CHUNK_OVERLAP, CHUNK_SIZE
 import logging
 
 #logger object 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("docq")
 
 
 # def set_params(text: str):

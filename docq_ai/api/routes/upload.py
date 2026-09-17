@@ -17,6 +17,7 @@ pipeline = Pipeline(llm=llm, vector=chroma)
 async def process_doc(request : DocumentRequestModel):
     documentid = request.document_id
     storagePath = request.storage_path
+    print("STORAGE PATH:", storagePath)
     pdf_bytes = download_file(storagePath)
 
     #temp store

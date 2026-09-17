@@ -2,7 +2,7 @@ import logging
 from app.config.cleaning_rules import PAGE_NUMBER_PATTERNS,MULTIPLE_NEWLINES,MULTIPLE_SPACES,CONTROL_CHARACTERS,REPEATED_SYMBOLS,JOINED_WORDS,BULLET_PATTERN
 
 #logger object
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("docq")
 
 #cleaning rules for the tes file
 # PAGE_PATTERN = re.compile(r"Page \d+ of \d+")

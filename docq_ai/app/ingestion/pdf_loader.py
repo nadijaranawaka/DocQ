@@ -4,7 +4,7 @@ from app.config.settings import BASE_DIR
 import logging
 
 #logger object
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("docq")
 
 #file path
 pdf_path = BASE_DIR / "data" / "uploads" / "testpdf.pdf"

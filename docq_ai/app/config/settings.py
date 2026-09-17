@@ -14,12 +14,12 @@ CHUNK_SIZE = 800
 CHUNK_OVERLAP = 100
 
 #Vector database
-VECTOR_PATH = "/vector"
+VECTOR_PATH = BASE_DIR / "vector"
 COLLECTION_NAME = "documents"
 
 #Retrieval
 TOP_K = 3
-MAX_DISTANCE = 0.8
+MAX_DISTANCE = 1
 
 #embedding model 
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
@@ -27,5 +27,5 @@ CHUNK_SIZE = 800
 CHUNK_OVERLAP = 100
 
 #LLM
-MODEL_GEM = "gemini-2.5-flash"
+MODEL_GEM = "gemini-3.6-flash"
 TEMP = 0.7

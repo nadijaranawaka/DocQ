@@ -9,7 +9,7 @@ from app.vectorstore.context_builder import contextBuilder
 from pathlib import Path
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("docq")
 
 class Pipeline:
     def __init__(self,llm,vector):
@@ -35,7 +35,6 @@ class Pipeline:
                     prompt=summary_prompt
                 )
             logger.info("Document summary generated")
-            logger.info(document_summary)
             logger.info(f"Starting ingestion for {path.name}")
             headers = find_headers(pdfText)
             pages = remove_headers(pdfText,headers)
@@ -57,7 +56,7 @@ class Pipeline:
             if self.vector.if_existing(document_id):
                 logger.warning(f"{document_id} already exists")
             else:
-                self.vector.store_doc(chunks,embeddings,document_id)
+                self.vector.store_doc(chunks,embeddings,path.stem,document_id)
         except Exception:
             logger.exception("Ingestion Failed")
             raise

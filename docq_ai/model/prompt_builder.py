@@ -1,5 +1,5 @@
 import logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("docq")
 
 def build_prompt(question:str, chunks:list) -> str:
     try:

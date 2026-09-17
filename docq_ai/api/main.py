@@ -5,7 +5,7 @@ from app.config import logConfig
 import logging
 
 #Instance Creation
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("docq")
 
 app = FastAPI()
 
