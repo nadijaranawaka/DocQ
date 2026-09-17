@@ -1,0 +1,325 @@
+/* ── Page shell ───────────────────────────────────── */
+.help-container {
+  display: flex;
+  height: 100vh;
+  background: #f0f2f5;
+  overflow: hidden;
+}
+
+/* ── Main area ────────────────────────────────────── */
+.help-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+/* ── Scroll wrapper ───────────────────────────────── */
+.help-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 48px;
+}
+
+.help-scroll::-webkit-scrollbar { width: 5px; }
+.help-scroll::-webkit-scrollbar-track { background: transparent; }
+.help-scroll::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 3px; }
+
+/* ── Top bar ──────────────────────────────────────── */
+.help-topbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 20px 0;
+}
+
+.help-close-btn {
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 6px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.12s;
+}
+.help-close-btn:hover {
+  background: #f3f4f6;
+}
+
+/* ── Body ─────────────────────────────────────────── */
+.help-body {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px 32px 0;
+}
+
+/* ── Heading ──────────────────────────────────────── */
+.help-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px;
+}
+
+.help-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 24px;
+}
+
+/* ── FAQ accordion wrapper ────────────────────────── */
+.help-faq-wrap {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.help-faq-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #f9fafb;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  gap: 10px;
+  transition: background 0.12s;
+}
+.help-faq-toggle:hover {
+  background: #f3f4f6;
+}
+
+.help-faq-toggle-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.help-faq-toggle-left strong {
+  font-weight: 600;
+}
+
+/* Chevron rotation */
+.faq-chevron {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+.faq-chevron--open {
+  transform: rotate(180deg);
+}
+
+/* FAQ list */
+.help-faqs {
+  border-top: 1px solid #e5e7eb;
+}
+
+.faq-item {
+  border-bottom: 1px solid #f3f4f6;
+}
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  color: #111827;
+  gap: 10px;
+  transition: background 0.12s;
+}
+.faq-question:hover {
+  background: #f9fafb;
+}
+
+.faq-answer {
+  padding: 0 16px 14px;
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Support channel cards ────────────────────────── */
+.help-channels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.help-channel-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.help-channel-card--discord {
+  background: #faf5ff;
+  border-color: #e9d5ff;
+}
+
+/* Icon circles */
+.channel-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.channel-icon-wrap--discord {
+  background: #5865f2;
+}
+
+.channel-icon-wrap--email {
+  background: #6b7280;
+}
+
+.channel-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.channel-desc {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+}
+
+/* Discord tags */
+.discord-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.discord-tags span {
+  background: #ede9fe;
+  color: #7c3aed;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+/* Discord button */
+.btn-discord {
+  display: inline-block;
+  background: #5865f2;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: 7px;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.15s;
+}
+.btn-discord:hover {
+  background: #4752c4;
+}
+
+/* Email ref box */
+.email-ref-box {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.email-ref-label {
+  font-weight: 600;
+  color: #374151;
+  margin-right: 4px;
+}
+
+/* Email link button */
+.btn-email {
+  display: inline-block;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 7px;
+  text-decoration: none;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+.btn-email:hover {
+  border-color: #14b8a6;
+  color: #14b8a6;
+  background: #f0fdfa;
+}
+
+/* ── Account info card ────────────────────────────── */
+.help-account-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+
+.help-account-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 12px;
+}
+
+.help-account-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 13px;
+}
+.help-account-row:last-child {
+  border-bottom: none;
+}
+
+.help-account-label {
+  color: #9ca3af;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.help-account-value {
+  color: #374151;
+  text-align: right;
+  word-break: break-all;
+}
+
+.help-account-mono {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  color: #6b7280;
+}
