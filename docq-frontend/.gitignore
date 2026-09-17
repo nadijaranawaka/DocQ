@@ -19,7 +19,4 @@ lerna-debug.log*
 *.sln
 *.sw?
 
-node_modules/
-dist/
-.env
-.env.local
+

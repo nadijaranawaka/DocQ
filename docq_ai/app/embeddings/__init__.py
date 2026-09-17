@@ -1,0 +1,1 @@
+from app.embeddings.embedding import get_embeddings
