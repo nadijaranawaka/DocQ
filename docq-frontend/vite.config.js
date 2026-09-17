@@ -13,10 +13,16 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Split vendor libraries into separate chunks for better caching
-        manualChunks: {
-          vendor:   ['react', 'react-dom'],
-          router:   ['react-router-dom'],
-          supabase: ['@supabase/supabase-js'],
+        manualChunks(id) {
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+            return 'vendor'
+          }
+          if (id.includes('node_modules/react-router-dom/')) {
+            return 'router'
+          }
+          if (id.includes('node_modules/@supabase/supabase-js/')) {
+            return 'supabase'
+          }
         },
       },
     },

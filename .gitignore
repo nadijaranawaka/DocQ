@@ -1,0 +1,26 @@
+# Environment variables — never commit these
+docq-frontend/.env
+docq-backend/.env
+docq-frontend/.env.local
+docq-backend/.env.local
+
+# Dependencies
+docq-frontend/node_modules/
+docq-backend/venv/
+docq-backend/.venv/
+
+# Build output
+docq-frontend/dist/
+
+# Python cache
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+*.egg-info/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
