@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, status
 from api.schemas.requests import DocumentRequestModel
 from services.supabase.download import download_file
 from app.config.settings import BASE_DIR
@@ -17,8 +17,17 @@ pipeline = Pipeline(llm=llm, vector=chroma)
 async def process_doc(request : DocumentRequestModel):
     documentid = request.document_id
     storagePath = request.storage_path
-    print("STORAGE PATH:", storagePath)
-    pdf_bytes = download_file(storagePath)
+    try:
+        pdf_bytes = download_file(storagePath)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=(
+                "Could not download the document from Supabase Storage. "
+                "Check that SUPABASE_STORAGE_BUCKET exists and matches the "
+                f"backend configuration: {exc}"
+            ),
+        ) from exc
 
     #temp store
     temp_path = BASE_DIR / "data" / "uploads" / f"{documentid}.pdf"

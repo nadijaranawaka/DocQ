@@ -213,7 +213,7 @@ async def _get_ai_answer(
 ) -> str:
     """
     Calls the AI backend endpoint:
-    POST /document-{document_id}/answer
+    POST /documents/{document_id}/answer
     { "question": "..." }
 
     Returns the answer string, or a placeholder if the AI
@@ -228,7 +228,7 @@ async def _get_ai_answer(
     try:
         async with httpx.AsyncClient(timeout=60.0) as client:
             response = await client.post(
-                f"{AI_BACKEND_URL}/document-{document_id}/answer",
+                f"{AI_BACKEND_URL}/documents/{document_id}/answer",
                 json={"question": question},
             )
 

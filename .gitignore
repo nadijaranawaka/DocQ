@@ -3,6 +3,8 @@ docq-frontend/.env
 docq-backend/.env
 docq-frontend/.env.local
 docq-backend/.env.local
+docq_ai/.env
+.env
 
 # Dependencies
 docq-frontend/node_modules/
