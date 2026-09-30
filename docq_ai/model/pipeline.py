@@ -27,24 +27,24 @@ class Pipeline:
                 raise FileNotFoundError(f"File not found: {path}")
             
             pdfText = load_pdf(path)
-            summary_text = "\n".join(
-                page["text"] for page in pdfText[:5]
-            )
-            summary_prompt = build_summary_prompt(summary_text)
-            document_summary = self.llm.generate(
-                    prompt=summary_prompt
-                )
-            logger.info("Document summary generated")
+            # summary_text = "\n".join(
+            #     page["text"] for page in pdfText[:5]
+            # )
+            # summary_prompt = build_summary_prompt(summary_text)
+            # document_summary = self.llm.generate(
+            #         prompt=summary_prompt
+            #     )
+            # logger.info("Document summary generated")
             logger.info(f"Starting ingestion for {path.name}")
             headers = find_headers(pdfText)
             pages = remove_headers(pdfText,headers)
             pages = clean_pages(pages)
             chunks = chunk_document(pages)
-            chunks.insert(0, {
-                "page":0,
-                "text":document_summary,
-                "chunk_type":"summary"
-            })
+            # chunks.insert(0, {
+            #     "page":0,
+            #     "text":document_summary,
+            #     "chunk_type":"summary"
+            # })
             texts = [
                 chunk["text"]
                 for chunk in chunks
