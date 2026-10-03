@@ -6,15 +6,15 @@ docq-backend/.env.local
 
 # Dependencies
 docq-frontend/node_modules/
-docq-backend/venv/
-docq-backend/.venv/
 
 # Build output
 docq-frontend/dist/
 
 # Python cache
+__pycache__/
 **/__pycache__/
 **/*.pyc
+*.pyc
 **/*.pyo
 *.egg-info/
 
@@ -24,3 +24,12 @@ Thumbs.db
 
 # VS Code
 .vscode/
+
+#virtural environment
+.venv
+venv/
+venv/
+.venv/
+
+#environment variables
+.env
