@@ -26,6 +26,7 @@ EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 CHUNK_SIZE = 800
 CHUNK_OVERLAP = 100
 
-#LLM
+# LLM
 MODEL_GEM = "gemini-3.6-flash"
+MODEL_GROQ = "openai/gpt-oss-20b"
 TEMP = 0.7

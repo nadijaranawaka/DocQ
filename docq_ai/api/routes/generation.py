@@ -2,12 +2,12 @@ from fastapi import APIRouter
 from api.schemas.requests import SearchRequest
 from model.pipeline import Pipeline
 from app.vectorstore import ChromaDB
-from app.config.settings import VECTOR_PATH,COLLECTION_NAME,MODEL_GEM,TEMP
-from model import GeminiModel
+from app.config.settings import VECTOR_PATH, COLLECTION_NAME, MODEL_GROQ, TEMP
+from model import GroqModel
 
 gen_router = APIRouter()
 chroma = ChromaDB(COLLECTION_NAME, VECTOR_PATH)
-llm = GeminiModel(MODEL_GEM, TEMP)
+llm = GroqModel(MODEL_GROQ, TEMP)
 pipeline = Pipeline(llm=llm, vector=chroma)
 
 
