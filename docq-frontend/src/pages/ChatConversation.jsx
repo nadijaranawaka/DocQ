@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import Sidebar from "../components/Sidebar";
 import { supabase } from "../services/supabaseClient";
 import "../styles/ChatConversation.css";
@@ -56,6 +57,8 @@ function ChatConversation() {
 
   const messagesEndRef = useRef(null);
   const textareaRef    = useRef(null);
+
+  const { refreshProfile } = useAuth();
 
   const fetchMessages = useCallback(async () => {
     setLoading(true);
@@ -150,6 +153,11 @@ function ChatConversation() {
       }
 
       const data = await response.json();
+      await refreshProfile();
+
+      console.log("POST RESPONSE:", data);
+      console.log("USER MESSAGE:", data.user_message);
+      console.log("ASSISTANT MESSAGE:", data.assistant_message);
 
       // Replace temp message with real one and add AI response
       setMessages((prev) => [

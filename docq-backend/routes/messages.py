@@ -8,6 +8,7 @@ from auth import get_current_user
 import uuid
 import httpx
 import os
+import math
 
 load_dotenv()
 
@@ -185,12 +186,15 @@ async def send_message(
     )
 
     # ── Call AI backend ──
-    ai_answer: str = await _get_ai_answer(
+    ai_result = await _get_ai_answer(
         question=body.content,
         document_id=document_id,
     )
 
-    # ── Save AI response ──
+    ai_answer = ai_result["answer"]
+    usage = ai_result["usage"]
+
+    # # ── Save AI response ──
     ai_message: Dict[str, Any] = {
         "message_id": str(uuid.uuid4()),
         "chat_id":    chat_id,
@@ -199,33 +203,40 @@ async def send_message(
     }
     supabase.table("messages").insert(ai_message).execute()
 
-    # ── Deduct 1 credit ──
+    # Calculate credits based on actual token usage
+    total_tokens = usage["total_tokens"]
+    credits_to_deduct = max(1, math.ceil(total_tokens / 1000))
+
+    if credits_to_deduct > credits_remaining:
+        raise HTTPException(
+            status_code=status.HTTP_402_PAYMENT_REQUIRED,
+            detail="Insufficient credits for this request."
+        )
+
+    # Never allow the balance to become negative
+    new_balance = max(0, credits_remaining - credits_to_deduct)
+
     supabase.table("profiles").update(
-        {"credits_remaining": credits_remaining - 1}
+        {"credits_remaining": new_balance}
     ).eq("id", user.id).execute()
 
     return {
-        "user_message":      user_message,
-        "assistant_message": ai_message,
-    }
-
+    "user_message": user_message,
+    "assistant_message": ai_message,
+    "usage": usage,
+    "credits_deducted": credits_to_deduct,
+    "credits_remaining": new_balance
+}
 
 async def _get_ai_answer(
     question: str,
     document_id: str,
-) -> str:
-    """
-    Calls the AI backend endpoint:
-    POST /documents/{document_id}/answer
-    { "question": "..." }
+) -> Dict[str, Any]:
 
-    Returns the answer string, or a placeholder if the AI
-    backend is unreachable.
-    """
     if not document_id:
-        return (
-            "Could not find the document linked to this chat. "
-            "Please try creating a new chat from the Documents page."
+        raise HTTPException(
+            status_code=400,
+            detail="Could not find the document linked to this chat."
         )
 
     try:
@@ -235,27 +246,47 @@ async def _get_ai_answer(
                 json={"question": question},
             )
 
-            if response.status_code == 200:
-                result: Any = response.json()
-                answer: str = result.get("answer", "No answer returned.")
-                return answer
+            response.raise_for_status()
 
-            # AI backend returned an error status
-            return (
-                f"The AI service returned an error (status {response.status_code}). "
-                "Please try again."
-            )
+            result = response.json()
 
-    except httpx.TimeoutException:
-        return (
-            "The AI service took too long to respond. "
-            "Please try again in a moment."
+            answer = result.get("answer")
+            usage = result.get("usage")
+
+            if not isinstance(answer, str) or not answer.strip():
+                raise HTTPException(
+                    status_code=502,
+                    detail="AI backend returned an invalid answer."
+                )
+
+            if not isinstance(usage, dict):
+                raise HTTPException(
+                    status_code=502,
+                    detail="AI backend did not return token usage."
+                )
+
+            return {
+                "answer": answer,
+                "usage": usage
+            }
+
+    except httpx.HTTPStatusError as e:
+        raise HTTPException(
+            status_code=502,
+            detail=f"AI backend returned status {e.response.status_code}."
         )
 
+    except httpx.TimeoutException:
+        raise HTTPException(
+            status_code=504,
+            detail="AI backend request timed out."
+        )
+
+    except HTTPException:
+        raise
+
     except Exception:
-        # AI backend is down — return placeholder
-        return (
-            "The AI backend is not reachable right now. "
-            "Your question has been saved. "
-            "Please try again when the service is back online."
+        raise HTTPException(
+            status_code=502,
+            detail="AI backend is currently unavailable."
         )
