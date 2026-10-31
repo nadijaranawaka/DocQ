@@ -3,7 +3,13 @@ from google.genai import types
 from dotenv import load_dotenv
 import os
 import logging
-from tenacity import retry,wait_random_exponential,stop_after_attempt
+from tenacity import (
+    retry,
+    wait_random_exponential,
+    stop_after_attempt,
+    retry_if_exception_type,
+    before_sleep_log
+)
 
 #logger object
 logger = logging.getLogger("docq")
@@ -32,34 +38,50 @@ class GeminiModel:
         logger.info(f"Gemini Initialization Complete with model={modelName}")
     
     #Later on have a default system prompt for this section
-    @retry(wait=wait_random_exponential(min=1,max=10),stop=stop_after_attempt(4))
-    def generate(self,prompt:str,systemprompt:str = "") -> str:
-        if not isinstance(prompt, str):
-            raise TypeError(
-                f"Expected str, got {type(prompt).__name__}"
-            )
-        if not prompt.strip():
-            raise ValueError(
-                "Prompt cannot be empty"
-            )
+    @retry(
+    retry=retry_if_exception_type(Exception),
+    wait=wait_random_exponential(min=2, max=15),
+    stop=stop_after_attempt(3),
+    before_sleep=before_sleep_log(logger, logging.WARNING),
+    reraise=True
+)
+    def _generate_response(self, prompt: str, systemprompt: str = ""):
+        if not isinstance(prompt, str) or not prompt.strip():
+            raise ValueError("Prompt cannot be empty")
+
         if not isinstance(systemprompt, str):
-            raise TypeError(
-                "System prompt must be a string"
+            raise TypeError("System prompt must be a string")
+
+        response = self.client.models.generate_content(
+            model=self.model,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                temperature=self.temperature,
+                system_instruction=systemprompt
             )
-        logger.info(f"Sending prompt length of {len(prompt)}")
-        try:
-            response = self.client.models.generate_content(
-                model = self.model,
-                contents = prompt,
-                config = types.GenerateContentConfig(
-                    temperature = self.temperature,
-                    system_instruction=systemprompt
-                )
-            )
-        except Exception:
-            logger.exception("Gemini requests failed")
-            raise
-        logger.info(f"Received Response of length {len(response.text)}")
+        )
+
         if not response.text:
-            raise ValueError("Gemini returned an empty String")
+            raise ValueError("Gemini returned an empty response")
+
+        return response
+
+
+    def generate(self, prompt: str, systemprompt: str = "") -> str:
+        response = self._generate_response(prompt, systemprompt)
         return response.text
+
+
+    def generate_with_usage(self, prompt: str, systemprompt: str = "") -> dict:
+        response = self._generate_response(prompt, systemprompt)
+
+        usage = response.usage_metadata
+
+        return {
+            "answer": response.text,
+            "usage": {
+                "prompt_tokens": usage.prompt_token_count or 0,
+                "completion_tokens": usage.candidates_token_count or 0,
+                "total_tokens": usage.total_token_count or 0
+            }
+        }   

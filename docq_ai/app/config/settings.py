@@ -18,7 +18,7 @@ VECTOR_PATH = BASE_DIR / "vector"
 COLLECTION_NAME = "documents"
 
 #Retrieval
-TOP_K = 3
+TOP_K = 7   
 MAX_DISTANCE = 1
 
 #embedding model 

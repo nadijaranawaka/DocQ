@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Optional
 from auth import get_current_user
 import uuid
 import os
+import httpx
 
 load_dotenv()
 
@@ -144,9 +145,8 @@ async def upload_document(
         )
 
         # ── 3. Trigger AI backend to process the document ──
-    # This runs after we return the document to the frontend
-    # so the user sees the document immediately without waiting
     try:
+        print(f"Calling AI backend: {AI_BACKEND_URL}/process-document")
         async with httpx.AsyncClient(timeout=30.0) as client:
             ai_response = await client.post(
                 f"{AI_BACKEND_URL}/process-document",
@@ -155,6 +155,7 @@ async def upload_document(
                     "storage_path": storage_path,
                 },
             )
+            print("AI response:", ai_response.status_code, ai_response.text)
 
             # If AI backend confirms ready, update status in DB
             if ai_response.status_code == 200:
@@ -174,11 +175,9 @@ async def upload_document(
 
                 document["status"] = "failed"
 
-    except Exception:
-        # AI backend unreachable — leave status as processing
-        # The AI team can update it to ready/failed when done
-        pass
-
+    except Exception as e:
+        print(f"AI BACKEND ERROR: {repr(e)}")
+        document["status"] = "uploaded"
     return document
 
 

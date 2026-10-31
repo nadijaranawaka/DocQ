@@ -73,3 +73,26 @@ class Pipeline:
         except Exception:
             logger.exception("Question Answering Failed")
             raise
+
+    def ask_docq_with_usage(self, question: str, document_id: str) -> dict:
+        try:
+            results = self.vector.search_doc(
+                question, TOP_K, document_id
+            )
+
+            chunks = contextBuilder(result=results)
+
+            logger.info(f"Retrieved {len(chunks)} chunks")
+
+            prompt = build_prompt(
+                question=question,
+                chunks=chunks
+            )
+
+            result = self.llm.generate_with_usage(prompt=prompt)
+
+            return result
+
+        except Exception:
+            logger.exception("Question Answering Failed")
+            raise

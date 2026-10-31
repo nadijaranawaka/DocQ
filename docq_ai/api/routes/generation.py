@@ -13,15 +13,16 @@ pipeline = Pipeline(llm=llm, vector=chroma)
 
 @gen_router.post("/documents/{document_id}/answer")
 async def answer_question(
-    document_id:str,
-    request:SearchRequest
+    document_id: str,
+    request: SearchRequest
 ):
-    answer = pipeline.ask_docq(
+    result = pipeline.ask_docq_with_usage(
         question=request.question,
         document_id=document_id
     )
 
     return {
         "document_id": document_id,
-        "answer": answer
+        "answer": result["answer"],
+        "usage": result["usage"]
     }
